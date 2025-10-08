@@ -1,0 +1,17 @@
+{
+  "name": "learning-crud-01",
+  "version": "1.0.0",
+  "description": "Criado para treinar o conhecimento e aplicar boas praticas de desenvolvimento.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^15.5.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}
