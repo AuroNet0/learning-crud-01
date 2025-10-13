@@ -1,17 +1,26 @@
 {
   "name": "learning-crud-01",
   "version": "1.0.0",
-  "description": "Criado para treinar o conhecimento e aplicar boas praticas de desenvolvimento.",
+  "description": "Criado para treinar o conhecimento e aplicar boas práticas de desenvolvimento.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:check": "prettier --check .",
+    "lint:fix": "prettier --write .",
+    "test": "vitest",
+    "test:watch": "jest --watchAll"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "next": "^15.5.4",
+    "pg": "^8.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "prettier": "^3.6.2"
   }
 }
