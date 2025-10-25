@@ -26,24 +26,57 @@ export async function GET(request, context) {
   }
 }
 
-// export async function PUT(request, { params }) {
-//   try {
-//     const { title, description } = await request.json();
-//     const result = await database.query(
-//       "UPDATE tasks SET title = $1, description = $2 WHERE id = $3 RETURNING *",
-//       [title, description, params.id]
-//     );
-//     return NextResponse.json(result.rows[0]);
-//   } catch (error) {
-//     return NextResponse.json({ error: error.message }, { status: 500 });
-//   }
-// }
+export async function PUT(request, context) {
+  try {
+    const params = await context.params;
+    const id = parseInt(params.id, 10);
 
-// export async function DELETE(_, { params }) {
-//   try {
-//     await database.query("DELETE FROM tasks WHERE id = $1", [params.id]);
-//     return NextResponse.json({ message: "Tarefa removida" });
-//   } catch (error) {
-//     return NextResponse.json({ error: error.message }, { status: 500 });
-//   }
-// }
+    const { title, description } = await request.json();
+    const query =
+      "UPDATE tasks SET title = $1, description = $2 WHERE id = $3 RETURNING *";
+
+    const result = await database.query({
+      text: query,
+      values: [title, description, id],
+    });
+
+    if (result.rowCount === 0) {
+      return NextResponse.json(
+        { message: "Erro ao alterar tarefa" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Tarefa alterada com sucesso" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request, context) {
+  try {
+    const params = await context.params;
+
+    const id = parseInt(params.id, 10);
+    const query = "DELETE FROM tasks WHERE id = $1";
+
+    const result = await database.query({ text: query, values: [id] });
+
+    if (result.rowCount === 0) {
+      return NextResponse.json(
+        { message: "Tarefa não encontrada" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Tarefa removida com sucesso" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
