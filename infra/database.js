@@ -3,7 +3,7 @@ import { Client } from "pg";
 async function query(queryObject) {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: true,
+    ssl: { rejectUnauthorized: false },
   });
 
   try {

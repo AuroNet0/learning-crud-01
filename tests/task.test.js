@@ -1,7 +1,7 @@
 // test("Teste endpoint POST", async () => {
 //   const newTask = {
-//     title: "Teste de inserção 2",
-//     description: "Essa é uma tarefa apenas de teste da API de inserção. 2 ",
+//     title: "Teste de inserção ",
+//     description: "Essa é uma tarefa apenas de teste da API de inserção. ",
 //   };
 //   const response = await fetch("http://localhost:3000/api/tasks", {
 //     method: "POST",
@@ -11,8 +11,26 @@
 //     body: JSON.stringify(newTask),
 //   });
 //   expect(response.status).toBe(201);
-//   //const responseBody = await response.json();
-//   //expect(responseBody).toStrictEqual([]);
+// });
+
+// test("Teste endpoint DELETE", async () => {
+//   const response = await fetch("http://localhost:3000/api/tasks/${id}", {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   expect(response.status).toBe(200);
+// });
+
+// test("Teste endpoint DELETE", async () => {
+//   const response = await fetch("http://localhost:3000/api/tasks/${id}", {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   expect(response.status).toBe(200);
 // });
 
 test("Teste endpoint GET", async () => {
