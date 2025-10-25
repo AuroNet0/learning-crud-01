@@ -1,29 +1,65 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function TasksPage() {
+  const [tasks, setTasks] = useState([]);
   const router = useRouter();
+  const pathname = usePathname();
 
-  const handleSubmit = (id) => {
+  const fetchTasks = useCallback(async () => {
+    try {
+      const res = await fetch("/api/tasks");
+      const data = await res.json();
+      setTasks(data);
+    } catch (error) {
+      console.error("Erro ao carregar tarefas", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks, pathname]);
+
+  const handleDelete = async (id) => {
+    const response = await fetch(`/api/tasks/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      await fetchTasks();
+    } else {
+      console.error("Falha ao deletar:", data.message || "Erro desconhecido");
+    }
+
+    return data.message;
+  };
+
+  const handleEdit = (id) => {
     router.push(`tasks/edit/${id}`);
   };
 
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/tasks")
-      .then((res) => res.json())
-      .then((data) => setTasks(data));
-  }, []);
+  const handleInsert = async () => {
+    router.push(`tasks/new`);
+  };
 
   return (
     <div>
       <div>
         <div>
           <h1>Lista de Tarefas</h1>
-          <button>Nova Tarefa</button>
+          <button
+            onClick={() => {
+              handleInsert();
+            }}
+          >
+            Nova Tarefa
+          </button>
         </div>
 
         <div>
@@ -37,12 +73,18 @@ export default function TasksPage() {
                 <div>
                   <button
                     onClick={() => {
-                      handleSubmit(t.id);
+                      handleEdit(t.id);
                     }}
                   >
                     Editar
                   </button>
-                  <button>Excluir</button>
+                  <button
+                    onClick={() => {
+                      handleDelete(t.id);
+                    }}
+                  >
+                    Excluir
+                  </button>
                 </div>
               </li>
             ))}
