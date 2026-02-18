@@ -8,8 +8,8 @@
     "dev": "next dev",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
-    "test": "vitest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll --verbose",
+    "test": "jest --verbose"
   },
   "author": "",
   "license": "MIT",
